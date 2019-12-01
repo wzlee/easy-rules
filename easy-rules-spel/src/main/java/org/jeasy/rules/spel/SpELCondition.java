@@ -25,8 +25,6 @@ package org.jeasy.rules.spel;
 
 import org.jeasy.rules.api.Condition;
 import org.jeasy.rules.api.Facts;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.ParserContext;
@@ -44,11 +42,8 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
  */
 public class SpELCondition implements Condition {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SpELCondition.class);
-
     private final ExpressionParser parser = new SpelExpressionParser();
 
-    private String expression;
     private Expression compiledExpression;
 
     /**
@@ -57,7 +52,6 @@ public class SpELCondition implements Condition {
      * @param expression the condition written in expression language
      */
     public SpELCondition(String expression) {
-        this.expression = expression;
         compiledExpression = parser.parseExpression(expression);
     }
 
@@ -68,20 +62,14 @@ public class SpELCondition implements Condition {
      * @param parserContext the SpEL parser context
      */
     public SpELCondition(String expression, ParserContext parserContext) {
-        this.expression = expression;
         compiledExpression = parser.parseExpression(expression, parserContext);
     }
 
     @Override
     public boolean evaluate(Facts facts) {
-        try {
-            StandardEvaluationContext context = new StandardEvaluationContext();
-            context.setRootObject(facts.asMap());
-            context.setVariables(facts.asMap());
-            return  compiledExpression.getValue(context, Boolean.class);
-        } catch (Exception e) {
-            LOGGER.error("Unable to evaluate expression: '" + expression + "' on facts: " + facts, e);
-            return false;
-        }
+        StandardEvaluationContext context = new StandardEvaluationContext();
+        context.setRootObject(facts.asMap());
+        context.setVariables(facts.asMap());
+        return  compiledExpression.getValue(context, Boolean.class);
     }
 }
