@@ -36,6 +36,12 @@ public class Facts implements Iterable<Map.Entry<String, Object>> {
 
     private Map<String, Object> facts = new HashMap<>();
 
+    public Facts(){}
+
+    public Facts(Map<String, Object> facts) {
+        this.facts = facts;
+    }
+
     /**
      * Put a fact in the working memory.
      * This will replace any fact having the same name.

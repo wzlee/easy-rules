@@ -199,4 +199,15 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>landray-release</id>
+            <url>https://maven.landray.com.cn/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>landray-snapshot</id>
+            <url>https://maven.landray.com.cn/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>
